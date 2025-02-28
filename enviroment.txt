@@ -1,0 +1,6 @@
+Use following as .env for setup
+
+NEXT_PUBLIC_TMDB_API_KEY=0fe1ced818dd55a4e2bbcf0bc5f47a5e
+NEXT_PUBLIC_TMDB_BASE_URL=https://api.themoviedb.org/3
+
+
