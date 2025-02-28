@@ -24,7 +24,6 @@ export default function HeroSection() {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        debugger
         const response = await fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}`)
         const data = await response.json()
         setMovies(data.results.slice(0, 5))

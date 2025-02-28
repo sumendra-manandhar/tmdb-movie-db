@@ -13,10 +13,12 @@ async function getMovieDetails(id: string) {
 }
 
 export default async function MoviePage({
-  params,
+  params:asyncParams,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
+  const params = await asyncParams;
+  
   const movie = await getMovieDetails(params.id)
 
   return (
