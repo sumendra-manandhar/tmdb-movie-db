@@ -48,43 +48,46 @@ export default function SearchPage() {
   }, [query])
 
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <div className="max-w-7xl mx-auto px-4 pt-24">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">
-            {loading
-              ? "Searching..."
-              : movies.length > 0
-                ? `Search Results for "${query}"`
-                : `No results found for "${query}"`}
-          </h1>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {movies.map(
-            (movie) =>
-              movie.poster_path && (
-                <Link key={movie.id} href={`/movie/${movie.id}`} className="movie-card">
-                  <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2">
-                    <Image
-                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                      alt={movie.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <h3 className="font-semibold line-clamp-1">{movie.title}</h3>
-                  <div className="flex justify-between text-sm text-gray-400">
-                    <span>{movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"}</span>
-                    <span>★ {movie.vote_average.toFixed(1)}</span>
-                  </div>
-                </Link>
-              ),
-          )}
-        </div>
+    <div className="movie-search-page">
+    <Navbar />
+    <div className="movie-search-container">
+      <div className="search-results-header">
+        <h1 className="results-title">
+          {loading
+            ? "Searching..."
+            : movies.length > 0
+            ? `Search Results for "${query}"`
+            : `No results found for "${query}"`}
+        </h1>
+      </div>
+  
+      <div className="movie-grid">
+        {movies.map(
+          (movie) =>
+            movie.poster_path && (
+              <Link key={movie.id} href={`/movie/${movie.id}`} className="movie-card">
+                <div className="movie-poster">
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="movie-title">{movie.title}</h3>
+                <div className="movie-meta">
+                  <span>{movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"}</span>
+                  <span>★ {movie.vote_average.toFixed(1)}</span>
+                </div>
+              </Link>
+            )
+        )}
       </div>
     </div>
+  </div>
+  
+
+    
   )
 }
 

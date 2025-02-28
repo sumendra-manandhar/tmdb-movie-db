@@ -50,46 +50,46 @@ export default function MovieSlider({ title, type }: MovieSliderProps) {
   }
 
   return (
-    <div className="relative">
-      <h2 className="text-2xl font-bold mb-4">{title}</h2>
-      <div className="relative group">
-        <div ref={sliderRef} className="flex overflow-x-scroll gap-4 movie-slider pb-4">
-          {movies.map((movie) => (
-            <Link key={movie.id} href={`/movie/${movie.id}`} className="flex-none w-[200px] movie-card">
-              <div className="relative aspect-[2/3] rounded-lg overflow-hidden">
-                <Image
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  fill
-                  className="object-cover"
-                />
+    <div className="movie-slider-container">
+    <h2 className="movie-slider-title">{title}</h2>
+    <div className="movie-slider-wrapper">
+      <div ref={sliderRef} className="movie-slider">
+        {movies.map((movie) => (
+          <Link key={movie.id} href={`/movie/${movie.id}`} className="movie-card">
+            <div className="movie-poster">
+              <Image
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                fill
+                className="movie-image"
+              />
+            </div>
+            <div className="movie-info">
+              <h3 className="movie-title">{movie.title}</h3>
+              <div className="movie-details">
+                <span>{new Date(movie.release_date).getFullYear()}</span>
+                <span>★ {movie.vote_average.toFixed(1)}</span>
               </div>
-              <div className="mt-2">
-                <h3 className="font-semibold line-clamp-1">{movie.title}</h3>
-                <div className="flex justify-between text-sm text-gray-400">
-                  <span>{new Date(movie.release_date).getFullYear()}</span>
-                  <span>★ {movie.vote_average.toFixed(1)}</span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-        <button
-          onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0"
-          disabled={!movies.length}
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button
-          onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0"
-          disabled={!movies.length}
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
+            </div>
+          </Link>
+        ))}
       </div>
+      <button
+        onClick={() => scroll("left")}
+        className="scroll-button left"
+        disabled={!movies.length}
+      >
+        <ChevronLeft className="icon" />
+      </button>
+      <button
+        onClick={() => scroll("right")}
+        className="scroll-button right"
+        disabled={!movies.length}
+      >
+        <ChevronRight className="icon" />
+      </button>
     </div>
+  </div>
   )
 }
 

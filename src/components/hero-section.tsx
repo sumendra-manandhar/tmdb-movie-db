@@ -51,39 +51,40 @@ export default function HeroSection() {
   if (movies.length === 0) return null
 
   return (
-    <div className="relative h-[70vh] w-full overflow-hidden">
-      {movies.map((movie, index) => (
-        <div
-          key={movie.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
-        >
-          <Image
-            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-            alt={movie.title}
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 hero-gradient" />
-          <div className="absolute bottom-0 left-0 p-8 max-w-2xl">
-            <h1 className="text-4xl font-bold mb-4">{movie.title}</h1>
-            <p className="text-gray-200">{movie.overview}</p>
-          </div>
+    <div className="slider-container">
+    {movies.map((movie, index) => (
+      <div
+        key={movie.id}
+        className={`slider-item ${index === currentIndex ? "active" : ""}`}
+      >
+        <Image
+          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          alt={movie.title}
+          fill
+          className="slider-image"
+          priority
+        />
+        <div className="slider-gradient" />
+        <div className="slider-content">
+          <h1 className="slider-title">{movie.title}</h1>
+          <p className="slider-description">{movie.overview}</p>
         </div>
-      ))}
-
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 p-2 rounded-full hover:bg-black/75 transition-colors"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 p-2 rounded-full hover:bg-black/75 transition-colors"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </button>
-    </div>
+      </div>
+    ))}
+  
+    <button
+      onClick={prevSlide}
+      className="slider-button slider-prev"
+    >
+      <ChevronLeft className="slider-icon" />
+    </button>
+    <button
+      onClick={nextSlide}
+      className="slider-button slider-next"
+    >
+      <ChevronRight className="slider-icon" />
+    </button>
+  </div>
+  
   )
 }

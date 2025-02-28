@@ -22,104 +22,105 @@ export default async function MoviePage({
   const movie = await getMovieDetails(params.id)
 
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <div className="relative">
-        {/* Backdrop Image */}
-        <div className="relative h-[60vh] w-full">
-          <Image
-            src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-            alt={movie.title}
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 hero-gradient" />
+<div className="movie-detail-page">
+  <Navbar />
+  <div className="movie-detail-container">
+    {/* Backdrop Image */}
+    <div className="backdrop-container">
+      <Image
+        src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+        alt={movie.title}
+        fill
+        className="backdrop-image"
+        priority
+      />
+      <div className="backdrop-gradient" />
+    </div>
+
+    {/* Movie Details */}
+    <div className="movie-details">
+      <div className="movie-info">
+        {/* Poster */}
+        <div className="poster-container">
+          <div className="poster-image">
+            <Image
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+              fill
+              className="object-cover"
+            />
+          </div>
         </div>
 
-        {/* Movie Details */}
-        <div className="max-w-7xl mx-auto px-4 -mt-32 relative z-10 mb-24">
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Poster */}
-            <div className="flex-none w-64">
-              <div className="relative aspect-[2/3] rounded-lg overflow-hidden">
-                <Image
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
+        {/* Info */}
+        <div className="info-container">
+          <h1 className="movie-title">{movie.title}</h1>
+
+          <div className="movie-meta">
+            <div className="meta-item">
+              <Star className="meta-icon" />
+              <span>{movie.vote_average.toFixed(1)}</span>
             </div>
+            <div className="meta-item">
+              <Clock className="meta-icon" />
+              <span>{movie.runtime} min</span>
+            </div>
+            <div className="meta-item">
+              <Calendar className="meta-icon" />
+              <span>{new Date(movie.release_date).getFullYear()}</span>
+            </div>
+          </div>
 
-            {/* Info */}
-            <div className="flex-grow">
-              <h1 className="text-4xl font-bold mb-4">{movie.title}</h1>
+          <div className="overview-section">
+            <h2 className="section-title">Overview</h2>
+            <p className="overview-text">{movie.overview}</p>
+          </div>
 
-              <div className="flex gap-6 text-gray-300 mb-6">
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-accent" />
-                  <span>{movie.vote_average.toFixed(1)}</span>
+          <div className="cast-section">
+            <h2 className="section-title">Cast</h2>
+            <div className="cast-list">
+              {movie.credits.cast.slice(0, 6).map((actor:any) => (
+                <div key={actor.id} className="actor-item">
+                  <div className="actor-image">
+                    <Image
+                      src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
+                      alt={actor.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <p className="actor-name">{actor.name}</p>
+                  <p className="actor-character">{actor.character}</p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5" />
-                  <span>{movie.runtime} min</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5" />
-                  <span>{new Date(movie.release_date).getFullYear()}</span>
-                </div>
-              </div>
+              ))}
+            </div>
+          </div>
 
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">Overview</h2>
-                <p className="text-gray-300">{movie.overview}</p>
-              </div>
-
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">Cast</h2>
-                <div className="flex gap-4 overflow-x-auto pb-4">
-                  {movie.credits.cast.slice(0, 6).map((actor: any) => (
-                    <div key={actor.id} className="flex-none w-24">
-                      <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2">
-                        <Image
-                          src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
-                          alt={actor.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <p className="text-sm font-medium line-clamp-1">{actor.name}</p>
-                      <p className="text-sm text-gray-400 line-clamp-1">{actor.character}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
+          <div className="details-section">
+            <h2 className="section-title">Details</h2>
+            <div className="details-grid">
               <div>
-                <h2 className="text-xl font-semibold mb-2">Details</h2>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-gray-400">Status: </span>
-                    {movie.status}
-                  </div>
-                  <div>
-                    <span className="text-gray-400">Original Language: </span>
-                    {movie.original_language.toUpperCase()}
-                  </div>
-                  <div>
-                    <span className="text-gray-400">Budget: </span>${movie.budget.toLocaleString()}
-                  </div>
-                  <div>
-                    <span className="text-gray-400">Revenue: </span>${movie.revenue.toLocaleString()}
-                  </div>
-                </div>
+                <span className="detail-label">Status: </span>
+                {movie.status}
+              </div>
+              <div>
+                <span className="detail-label">Original Language: </span>
+                {movie.original_language.toUpperCase()}
+              </div>
+              <div>
+                <span className="detail-label">Budget: </span>${movie.budget.toLocaleString()}
+              </div>
+              <div>
+                <span className="detail-label">Revenue: </span>${movie.revenue.toLocaleString()}
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
   )
 }
 

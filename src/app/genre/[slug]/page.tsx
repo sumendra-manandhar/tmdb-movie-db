@@ -32,18 +32,14 @@ export default function GenrePage() {
   const params = useParams()
 
   const url = new URL(window.location.href);
-const pathnameParts = url.pathname.split("/").filter(Boolean);
-const urlslug = pathnameParts[pathnameParts.length - 1];
-  debugger
+  const pathnameParts = url.pathname.split("/").filter(Boolean);
+  const urlslug = pathnameParts[pathnameParts.length - 1];
+
   const slug = typeof params?.slug === "string" 
-  ? params.slug 
-  : Array.isArray(params?.slug) 
-    ? params.slug[0] 
-    : urlslug;
-
-
-    console.log(slug)
-
+    ? params.slug 
+    : Array.isArray(params?.slug) 
+      ? params.slug[0] 
+      : urlslug;
 
   const [movies, setMovies] = useState<Movie[]>([])
   const [sortBy, setSortBy] = useState("popularity.desc")
@@ -61,7 +57,7 @@ const urlslug = pathnameParts[pathnameParts.length - 1];
         }
 
         const response = await fetch(
-          `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=${sortBy}`,
+          `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=${sortBy}`
         )
         const data = await response.json()
         setMovies(data.results)
@@ -80,16 +76,12 @@ const urlslug = pathnameParts[pathnameParts.length - 1];
   const genreTitle = slug ? slug.replace("-", " ") : ""
 
   return (
-    <div className="min-h-screen">
+    <div className="genre-page">
       <Navbar />
-      <div className="max-w-7xl mx-auto px-4 pt-24">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold capitalize">{genreTitle} Movies</h1>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="bg-gray-800 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-          >
+      <div className="container">
+        <div className="header">
+          <h1>{genreTitle} Movies</h1>
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
             <option value="popularity.desc">Most Popular</option>
             <option value="vote_average.desc">Highest Rated</option>
             <option value="release_date.desc">Latest Release</option>
@@ -98,14 +90,14 @@ const urlslug = pathnameParts[pathnameParts.length - 1];
         </div>
 
         {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          <div className="loading-spinner">
+            <div className="spinner"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="movies-grid">
             {movies.map((movie) => (
               <Link key={movie.id} href={`/movie/${movie.id}`} className="movie-card">
-                <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2">
+                <div className="poster">
                   {movie.poster_path ? (
                     <Image
                       src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -114,21 +106,21 @@ const urlslug = pathnameParts[pathnameParts.length - 1];
                       className="object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gray-800 flex items-center justify-center">
-                      <span className="text-gray-400">No Image</span>
+                    <div className="placeholder">
+                      <span>No Image</span>
                     </div>
                   )}
                 </div>
-                <h3 className="font-semibold line-clamp-1">{movie.title}</h3>
-                <div className="flex justify-between text-sm text-gray-400">
+                <h3>{movie.title}</h3>
+                <div className="movie-info">
                   <span>{movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"}</span>
-                  <span>★ {movie.vote_average.toFixed(1)}</span>
+                  <span className="rating">{movie.vote_average.toFixed(1)}</span>
                 </div>
               </Link>
             ))}
             {movies.length === 0 && !isLoading && (
-              <div className="col-span-full text-center py-12">
-                <p className="text-lg text-gray-400">No movies found for this genre.</p>
+              <div className="no-movies">
+                <p>No movies found for this genre.</p>
               </div>
             )}
           </div>
@@ -137,4 +129,3 @@ const urlslug = pathnameParts[pathnameParts.length - 1];
     </div>
   )
 }
-
