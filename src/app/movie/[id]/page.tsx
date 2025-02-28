@@ -2,9 +2,12 @@ import Image from "next/image"
 import { Star, Clock, Calendar } from "lucide-react"
 import Navbar from "@/components/navbar"
 
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
+const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL 
+
 async function getMovieDetails(id: string) {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=0fe1ced818dd55a4e2bbcf0bc5f47a5e&append_to_response=credits`,
+    `${BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=credits`,
   )
   return response.json()
 }

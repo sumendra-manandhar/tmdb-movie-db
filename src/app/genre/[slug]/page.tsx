@@ -24,6 +24,9 @@ interface Movie {
   runtime?: number
 }
 
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
+const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL 
+
 export default function GenrePage({ params }: { params: { slug: string } }) {
   const [movies, setMovies] = useState<Movie[]>([])
   const [sortBy, setSortBy] = useState("popularity.desc")
@@ -33,7 +36,7 @@ export default function GenrePage({ params }: { params: { slug: string } }) {
       try {
         const genreId = genreIds[params.slug]
         const response = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?api_key=0fe1ced818dd55a4e2bbcf0bc5f47a5e&with_genres=${genreId}&sort_by=${sortBy}`,
+          `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=${sortBy}`,
         )
         const data = await response.json()
         setMovies(data.results)

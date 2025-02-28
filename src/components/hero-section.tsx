@@ -11,9 +11,11 @@ interface Movie {
   overview: string
 }
 
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
+const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL 
 
-// const API_KEY = process.env.REACT_APP_TMDB_API_KEY
-// const BASE_URL = process.env.REACT_APP_TMDB_BASE_URL
+console.log("API_KEY:", API_KEY)
+console.log("BASE_URL:", BASE_URL)
 
 export default function HeroSection() {
   const [movies, setMovies] = useState<Movie[]>([])
@@ -22,10 +24,8 @@ export default function HeroSection() {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        // const response = await fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}`)
-        const response = await fetch(
-            `https://api.themoviedb.org/3/movie/now_playing?api_key=0fe1ced818dd55a4e2bbcf0bc5f47a5e`,
-          )
+        debugger
+        const response = await fetch(`${BASE_URL}/movie/now_playing?api_key=${API_KEY}`)
         const data = await response.json()
         setMovies(data.results.slice(0, 5))
       } catch (error) {
@@ -56,9 +56,7 @@ export default function HeroSection() {
       {movies.map((movie, index) => (
         <div
           key={movie.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentIndex ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 transition-opacity duration-1000 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
         >
           <Image
             src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
@@ -90,4 +88,3 @@ export default function HeroSection() {
     </div>
   )
 }
-

@@ -14,6 +14,10 @@ interface Movie {
   vote_average: number
 }
 
+
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
+const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL 
+
 export default function SearchPage() {
   const [movies, setMovies] = useState<Movie[]>([])
   const [loading, setLoading] = useState(true)
@@ -27,7 +31,7 @@ export default function SearchPage() {
       setLoading(true)
       try {
         const response = await fetch(
-          `https://api.themoviedb.org/3/search/movie?api_key=0fe1ced818dd55a4e2bbcf0bc5f47a5e&query=${encodeURIComponent(
+          `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
             query,
           )}`,
         )

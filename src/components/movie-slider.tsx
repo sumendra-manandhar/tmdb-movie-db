@@ -18,6 +18,9 @@ interface MovieSliderProps {
   type: "now_playing" | "upcoming" | "top_rated"
 }
 
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY
+const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL 
+
 export default function MovieSlider({ title, type }: MovieSliderProps) {
   const [movies, setMovies] = useState<Movie[]>([])
   const sliderRef = useRef<HTMLDivElement>(null)
@@ -26,7 +29,7 @@ export default function MovieSlider({ title, type }: MovieSliderProps) {
     const fetchMovies = async () => {
       try {
         const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${type}?api_key=0fe1ced818dd55a4e2bbcf0bc5f47a5e`,
+          `${BASE_URL}/movie/${type}?api_key=${API_KEY}`,
         )
         const data = await response.json()
         setMovies(data.results)
