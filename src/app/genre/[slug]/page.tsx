@@ -78,7 +78,7 @@ export default function GenrePage() {
   return (
     <div className="genre-page">
       <Navbar />
-      <div className="container">
+      <div className="container ">
         <div className="header">
           <h1>{genreTitle} Movies</h1>
           <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>

@@ -57,7 +57,7 @@ body {
   min-height: 100vh;
 
   .container {
-    max-width: 80rem; // 7xl equivalent
+    max-width: 80rem; // 1280px equivalent
     margin: 0 auto;
     padding: 6rem 1rem 0; // pt-24 equivalent
   }
@@ -600,7 +600,7 @@ body {
     }
 
     .movie-details {
-      max-width: 7xl;
+      max-width: 1280px;
       margin: 0 auto;
       padding: 0 1rem;
       margin-top: -8rem;
@@ -734,7 +734,7 @@ body {
   min-height: 100vh;
   
   .movie-search-container {
-    max-width: 7xl;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 6rem 1rem 0;
 
