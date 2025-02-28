@@ -30,7 +30,20 @@ const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL
 
 export default function GenrePage() {
   const params = useParams()
- const slug = typeof params.slug === "string" ? params.slug : Array.isArray(params.slug) ? params.slug[0] : ""
+
+  const url = new URL(window.location.href);
+const pathnameParts = url.pathname.split("/").filter(Boolean);
+const urlslug = pathnameParts[pathnameParts.length - 1];
+  debugger
+  const slug = typeof params?.slug === "string" 
+  ? params.slug 
+  : Array.isArray(params?.slug) 
+    ? params.slug[0] 
+    : urlslug;
+
+
+    console.log(slug)
+
 
   const [movies, setMovies] = useState<Movie[]>([])
   const [sortBy, setSortBy] = useState("popularity.desc")
