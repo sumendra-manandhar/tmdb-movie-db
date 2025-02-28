@@ -38,7 +38,7 @@ export default async function MoviePage({
         </div>
 
         {/* Movie Details */}
-        <div className="max-w-7xl mx-auto px-4 -mt-32 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 -mt-32 relative z-10 mb-24">
           <div className="flex flex-col md:flex-row gap-8">
             {/* Poster */}
             <div className="flex-none w-64">
