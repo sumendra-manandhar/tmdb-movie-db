@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import Navbar from "@/components/navbar"
-import { useSearchParams } from "next/navigation"
+import { useParams, useSearchParams } from "next/navigation"
 
 const genreIds: { [key: string]: number } = {
   action: 28,
@@ -31,17 +31,18 @@ const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL
 
 
 export default function GenrePage() {
-  const searchParams = useSearchParams();
+  const searchParams = useParams(); 
 
   const [movies, setMovies] = useState<Movie[]>([])
   const [sortBy, setSortBy] = useState("popularity.desc")
 
 
-
+console.log(searchParams,"this")
   useEffect(() => {
     const fetchMovies = async () => {
+      debugger
       try {
-        const genreId = genreIds[searchParams.get('slug') as string]
+        const genreId = genreIds[searchParams.slug as string]
         const response = await fetch(
           `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=${sortBy}`,
         )
@@ -53,14 +54,14 @@ export default function GenrePage() {
     }
 
     fetchMovies()
-  }, [searchParams.get('slug') as string, sortBy])
+  }, [searchParams.slug as string, sortBy])
 
   return (
     <div className="min-h-screen">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 pt-24">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold capitalize">{searchParams.get('slug')?.replace("-", " ")} Movies</h1>
+          <h1 className="text-3xl font-bold capitalize">{(searchParams?.slug as string)?.replace("-", " ")} Movies</h1>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
