@@ -30,7 +30,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL
 
 export default function GenrePage() {
   const params = useParams()
-  const slug = params.slug as string
+ const slug = typeof params.slug === "string" ? params.slug : Array.isArray(params.slug) ? params.slug[0] : ""
 
   const [movies, setMovies] = useState<Movie[]>([])
   const [sortBy, setSortBy] = useState("popularity.desc")
